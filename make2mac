@@ -1,0 +1,2 @@
+../utils/oopl_make2mac ../googletest/googletest/include ../googletest/googletest/mybuild/ ../ooplsarccl/makefile > makefile.mac
+
