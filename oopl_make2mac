@@ -1,0 +1,34 @@
+#!/usr/bin/env perl
+
+use File::Spec;
+use Cwd abs_path;
+
+
+# Make sure both arguments are given
+die "Usage: $0 googletest_include_path googletest_library_path" if ($#ARGV < 1);
+
+my ($incdir,$libdir) = @ARGV;
+shift @ARGV;
+shift @ARGV;
+
+$incdir = Cwd::abs_path($incdir) ;
+$libdir = Cwd::abs_path($libdir) ;
+
+# Check for an include
+die "The include directory path ($incdir) doesn't seem correct." if (!-f "$incdir/gtest/gtest.h");
+
+# Check for a library
+die "The library directory path ($libdir) doesn't seem correct." if (!-f "$libdir/libgtest.a");
+
+while (<>) {
+    chomp;
+    $_ =~ s/\-4\.8//;
+    $_ =~ s/\bmake\b/make -f makefile.mac/g;
+    if ($_ =~ /^\s*CXXFLAGS\b/) {
+        $_ .= " -I$incdir"
+    }
+    if ($_ =~ /^\s*LDFLAGS\b/) {
+        $_ .= " -L$libdir"
+    }
+    print "$_\n";
+}

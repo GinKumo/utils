@@ -1,0 +1,1 @@
+cat Collatz.h FastCollatz.h Collatz.c++ FastCollatz.c++ RunCollatz.c++ | ../utils/remccoms3.sed | sed '/#include \{1,\}\"Collatz.h\"/d' | sed '/#include \{1,\}\"FastCollatz.h\"/d' | sed '/^ *$/d'  
